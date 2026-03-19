@@ -243,6 +243,80 @@
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #c8ff00; }
+
+        /* Gradient text */
+        .text-gradient {
+            background: linear-gradient(135deg, #c8ff00 0%, #d4a855 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Parallax hero */
+        @supports (background-attachment: fixed) {
+            .parallax-bg {
+                background-attachment: fixed;
+                background-size: cover;
+                background-position: center;
+            }
+        }
+
+        /* Animated gradient border */
+        @keyframes borderGlow {
+            0%, 100% { border-color: rgba(200, 255, 0, 0.15); }
+            50% { border-color: rgba(200, 255, 0, 0.4); }
+        }
+        .border-glow { animation: borderGlow 3s ease-in-out infinite; }
+
+        /* Stagger children reveal */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .stagger-children.visible > *:nth-child(1) { transition-delay: 0s; }
+        .stagger-children.visible > *:nth-child(2) { transition-delay: 0.08s; }
+        .stagger-children.visible > *:nth-child(3) { transition-delay: 0.16s; }
+        .stagger-children.visible > *:nth-child(4) { transition-delay: 0.24s; }
+        .stagger-children.visible > *:nth-child(5) { transition-delay: 0.32s; }
+        .stagger-children.visible > *:nth-child(6) { transition-delay: 0.4s; }
+        .stagger-children.visible > *:nth-child(7) { transition-delay: 0.48s; }
+        .stagger-children.visible > *:nth-child(8) { transition-delay: 0.56s; }
+        .stagger-children.visible > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Magnetic button effect */
+        .btn-magnetic {
+            transition: transform 0.2s ease;
+        }
+
+        /* Diagonal stripe accent */
+        .stripe-accent {
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 4px,
+                rgba(200, 255, 0, 0.03) 4px,
+                rgba(200, 255, 0, 0.03) 8px
+            );
+        }
+
+        /* Image reveal on scroll */
+        .img-reveal {
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .img-reveal.visible {
+            clip-path: inset(0 0 0 0);
+        }
+
+        /* Floating orbs background */
+        @keyframes float1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -40px) scale(1.1); } }
+        @keyframes float2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-20px, 30px) scale(0.9); } }
+        .orb-1 { animation: float1 12s ease-in-out infinite; }
+        .orb-2 { animation: float2 15s ease-in-out infinite; }
     </style>
 </head>
 <body class="bg-dark-950 text-white overflow-x-hidden">
@@ -295,41 +369,51 @@
     <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden noise">
         <!-- Background image -->
         <div class="absolute inset-0">
-            <img src="images/hero-patio.jpg" alt="Stunning brick paver patio" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-dark-950"></div>
+            <img src="images/hero-patio.jpg" alt="Stunning brick paver patio" class="w-full h-full object-cover" style="filter: brightness(0.7) contrast(1.1);">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/85 via-black/50 to-dark-950"></div>
+            <div class="absolute inset-0 stripe-accent"></div>
         </div>
+
+        <!-- Floating orbs -->
+        <div class="absolute top-1/4 right-[15%] w-64 h-64 bg-lime/5 rounded-full blur-3xl orb-1 pointer-events-none"></div>
+        <div class="absolute bottom-1/3 left-[10%] w-48 h-48 bg-gold/5 rounded-full blur-3xl orb-2 pointer-events-none"></div>
 
         <!-- Content -->
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 w-full">
             <!-- Label -->
             <div class="hero-line mb-6">
-                <span class="text-lime text-xs sm:text-sm font-bold tracking-[0.3em] uppercase">Southeast Michigan's Premier Outdoor Contractor</span>
+                <span class="inline-flex items-center gap-3 text-xs sm:text-sm font-bold tracking-[0.3em] uppercase">
+                    <span class="w-8 h-px bg-lime"></span>
+                    <span class="text-lime">Southeast Michigan's Premier Outdoor Contractor</span>
+                </span>
             </div>
 
             <!-- Headline -->
             <h1 class="font-heading font-bold leading-[0.9] tracking-tight mb-8">
                 <span class="hero-line block text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-white">WE BUILD</span>
                 <span class="hero-line block text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-white">OUTDOOR</span>
-                <span class="hero-line block text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-lime">DREAMS<span class="text-gold">.</span></span>
+                <span class="hero-line block text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-gradient">DREAMS<span style="-webkit-text-fill-color: #d4a855;">.</span></span>
             </h1>
 
             <!-- Subtitle -->
             <p class="hero-line text-white/60 text-lg sm:text-xl max-w-xl mb-10 font-light leading-relaxed" style="animation-delay: 0.8s;">
-                Brick pavers, landscaping, and complete outdoor transformations. Serving Macomb, Oakland & Wayne Counties.
+                Brick pavers, landscaping, and complete outdoor transformations &mdash; built with precision, designed to last.
             </p>
 
             <!-- CTA Buttons -->
             <div class="hero-line flex flex-col sm:flex-row gap-4 mb-16" style="animation-delay: 1s;">
-                <a href="#contact" class="btn-glow bg-lime text-dark-950 px-8 py-4 rounded-full text-base font-bold tracking-wide text-center">
+                <a href="#contact" class="btn-glow btn-magnetic bg-lime text-dark-950 px-8 py-4 rounded-full text-base font-bold tracking-wide text-center inline-flex items-center justify-center gap-2">
                     GET YOUR FREE ESTIMATE
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                 </a>
-                <a href="tel:5868712740" class="btn-glow btn-glow-gold border border-gold/40 text-gold px-8 py-4 rounded-full text-base font-medium tracking-wide text-center hover:bg-gold/10">
+                <a href="tel:5868712740" class="btn-glow btn-glow-gold btn-magnetic border border-gold/40 text-gold px-8 py-4 rounded-full text-base font-medium tracking-wide text-center hover:bg-gold/10 inline-flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                     (586) 871-2740
                 </a>
             </div>
 
             <!-- Glassmorphism badge -->
-            <div class="hero-line float-badge inline-flex items-center gap-4 sm:gap-6 px-6 py-3 rounded-2xl text-sm" style="animation-delay: 1.2s; background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);">
+            <div class="hero-line float-badge inline-flex items-center gap-4 sm:gap-6 px-6 py-3 rounded-2xl text-sm border-glow" style="animation-delay: 1.2s; background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
                 <span class="flex items-center gap-2"><span class="text-lime font-bold text-lg">15+</span> <span class="text-white/60">Years</span></span>
                 <span class="w-px h-5 bg-white/10"></span>
                 <span class="flex items-center gap-2"><span class="text-lime font-bold text-lg">500+</span> <span class="text-white/60">Projects</span></span>
@@ -340,8 +424,8 @@
 
         <!-- Scroll indicator -->
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-            <span class="text-xs tracking-[0.2em] uppercase">Scroll</span>
-            <div class="w-px h-8 bg-gradient-to-b from-white to-transparent"></div>
+            <span class="text-xs tracking-[0.2em] uppercase font-heading">Scroll</span>
+            <div class="w-px h-10 bg-gradient-to-b from-lime/50 to-transparent"></div>
         </div>
     </section>
 
@@ -373,11 +457,16 @@
 
     <!-- SERVICES - BENTO GRID -->
     <section id="services" class="relative py-20 sm:py-32 noise">
+        <div class="absolute top-20 right-0 w-72 h-72 bg-lime/3 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section header -->
             <div class="reveal mb-16">
-                <span class="text-lime text-xs font-bold tracking-[0.3em] uppercase block mb-4">What We Do</span>
+                <span class="inline-flex items-center gap-3 text-xs font-bold tracking-[0.3em] uppercase mb-4">
+                    <span class="w-8 h-px bg-lime"></span>
+                    <span class="text-lime">What We Do</span>
+                </span>
                 <h2 class="font-heading text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight">OUR SERVICES</h2>
+                <p class="text-white/40 mt-4 text-lg max-w-lg">Full-service outdoor solutions &mdash; from concept to completion.</p>
             </div>
 
             <!-- Bento Grid -->
@@ -448,14 +537,23 @@
                     <p class="text-white/40 text-sm mt-1">Spring & fall seasonal</p>
                 </div>
 
-                <!-- Finished Basements -->
-                <div class="reveal reveal-delay-3 md:col-span-4 lg:col-span-4 relative rounded-2xl overflow-hidden group card-hover border border-dark-700 cursor-pointer" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
-                    <img src="images/basement.jpg" alt="Finished basement" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 p-5 sm:p-6 z-10">
-                        <span class="inline-block bg-gold/20 text-gold text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full mb-2">Interior</span>
-                        <h3 class="font-heading text-2xl font-bold">Finished Basements</h3>
-                        <p class="text-white/50 text-sm mt-1">Complete interior transformations &mdash; flooring, walls, bars & entertainment areas</p>
+                <!-- Retaining Walls -->
+                <div class="reveal reveal-delay-3 md:col-span-2 lg:col-span-2 relative rounded-2xl overflow-hidden group card-hover border border-dark-700 cursor-pointer" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+                    <img src="images/paver-walkway.jpg" alt="Retaining walls" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20"></div>
+                    <div class="absolute bottom-0 left-0 p-5 z-10">
+                        <h3 class="font-heading text-xl font-bold">Retaining Walls</h3>
+                        <p class="text-white/50 text-sm mt-1">Structural & decorative</p>
+                    </div>
+                </div>
+
+                <!-- Landscape Design -->
+                <div class="reveal reveal-delay-4 md:col-span-2 lg:col-span-2 relative rounded-2xl overflow-hidden group card-hover border border-dark-700 cursor-pointer" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+                    <img src="images/lawn-care.jpg" alt="Landscape design" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20"></div>
+                    <div class="absolute bottom-0 left-0 p-5 z-10">
+                        <h3 class="font-heading text-xl font-bold">Landscape Design</h3>
+                        <p class="text-white/50 text-sm mt-1">Complete yard transformations</p>
                     </div>
                 </div>
 
@@ -472,9 +570,13 @@
 
     <!-- STATS SECTION -->
     <section class="bg-dark-900 relative py-20 sm:py-28 noise">
-        <div class="absolute inset-0 dot-grid opacity-30"></div>
+        <div class="absolute inset-0 dot-grid opacity-20"></div>
+        <div class="absolute inset-0 stripe-accent"></div>
+        <!-- Decorative orbs -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-lime/3 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-gold/3 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center stagger-children">
                 <div class="reveal">
                     <div class="font-heading text-5xl sm:text-6xl md:text-7xl font-bold">
                         <span class="counter" data-target="15">0</span><span class="text-lime">+</span>
@@ -515,10 +617,16 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
             <div class="reveal flex items-end justify-between">
                 <div>
-                    <span class="text-lime text-xs font-bold tracking-[0.3em] uppercase block mb-4">Portfolio</span>
+                    <span class="inline-flex items-center gap-3 text-xs font-bold tracking-[0.3em] uppercase mb-4">
+                        <span class="w-8 h-px bg-lime"></span>
+                        <span class="text-lime">Portfolio</span>
+                    </span>
                     <h2 class="font-heading text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight">OUR WORK</h2>
                 </div>
-                <span class="text-white/30 text-xs tracking-[0.2em] uppercase hidden sm:block">Drag to explore &rarr;</span>
+                <span class="text-white/30 text-xs tracking-[0.2em] uppercase hidden sm:flex items-center gap-2">
+                    <span>Drag to explore</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </span>
             </div>
         </div>
         <div class="scroll-gallery flex gap-4 sm:gap-6 overflow-x-auto px-4 sm:px-8 pb-4" id="gallery">
@@ -556,11 +664,11 @@
                 </div>
             </div>
             <div class="flex-shrink-0 w-[85vw] sm:w-[450px] h-[350px] sm:h-[450px] rounded-2xl overflow-hidden relative group">
-                <img src="images/basement.jpg" alt="Finished basement" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <img src="images/lawn-care.jpg" alt="Professional lawn care" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 p-6">
-                    <span class="text-gold text-xs font-bold tracking-wider uppercase">Interior</span>
-                    <h3 class="font-heading text-xl font-bold mt-1">Basement Transformation</h3>
+                    <span class="text-lime text-xs font-bold tracking-wider uppercase">Maintenance</span>
+                    <h3 class="font-heading text-xl font-bold mt-1">Year-Round Lawn Care</h3>
                 </div>
             </div>
             <!-- Spacer -->
@@ -575,10 +683,21 @@
                 <!-- Left - Sticky image -->
                 <div class="reveal">
                     <div class="lg:sticky lg:top-32">
-                        <span class="text-lime text-xs font-bold tracking-[0.3em] uppercase block mb-4">Why Nelligan's</span>
+                        <span class="inline-flex items-center gap-3 text-xs font-bold tracking-[0.3em] uppercase mb-4">
+                            <span class="w-8 h-px bg-lime"></span>
+                            <span class="text-lime">Why Nelligan's</span>
+                        </span>
                         <h2 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6">THE<br>DIFFERENCE<span class="text-lime">.</span></h2>
-                        <div class="rounded-2xl overflow-hidden aspect-[4/3]">
+                        <div class="rounded-2xl overflow-hidden aspect-[4/3] img-reveal">
                             <img src="images/paver-walkway.jpg" alt="Quality craftsmanship" class="w-full h-full object-cover">
+                        </div>
+                        <div class="mt-6 flex items-center gap-4">
+                            <div class="flex -space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-lime/20 border-2 border-dark-950 flex items-center justify-center text-lime text-xs font-bold">M</div>
+                                <div class="w-8 h-8 rounded-full bg-gold/20 border-2 border-dark-950 flex items-center justify-center text-gold text-xs font-bold">S</div>
+                                <div class="w-8 h-8 rounded-full bg-white/10 border-2 border-dark-950 flex items-center justify-center text-white/60 text-xs font-bold">D</div>
+                            </div>
+                            <p class="text-white/40 text-sm">Trusted by <span class="text-white/70 font-medium">500+</span> homeowners</p>
                         </div>
                     </div>
                 </div>
@@ -756,12 +875,12 @@
                     <div class="text-center max-w-3xl mx-auto">
                         <div class="text-lime text-6xl font-serif leading-none mb-6">&ldquo;</div>
                         <p class="font-serif italic text-xl sm:text-2xl md:text-3xl leading-relaxed text-white/90 mb-8">
-                            Had them finish our basement &mdash; couldn't be happier. They were communicative, clean, and the quality of work was top notch. Highly recommend for any project.
+                            We've used Nelligan's for lawn care, snow removal, and now our new patio. They're our go-to for everything outdoors. Professional, reliable, and their prices are very fair.
                         </p>
                         <div class="flex items-center justify-center gap-1 mb-3">
                             <span class="text-lime text-lg">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
                         </div>
-                        <p class="text-white/60 font-medium">David R. &mdash; <span class="text-white/40">Shelby Township</span></p>
+                        <p class="text-white/60 font-medium">Dan T. &mdash; <span class="text-white/40">Shelby Township</span></p>
                     </div>
                 </div>
 
@@ -786,39 +905,54 @@
 
     <!-- SPRING SPECIAL CTA -->
     <section class="relative py-20 sm:py-28 overflow-hidden noise">
-        <div class="absolute inset-0 bg-gradient-to-r from-lime/10 via-transparent to-lime/5"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-lime/8 via-dark-950 to-gold/5"></div>
         <div class="absolute inset-0 border-y border-lime/20"></div>
+        <div class="absolute inset-0 stripe-accent"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-lime/5 rounded-full blur-[150px] pointer-events-none"></div>
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <div class="reveal">
-                <span class="text-lime text-xs font-bold tracking-[0.3em] uppercase block mb-4">Limited Time</span>
-                <h2 class="font-heading text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-4">
-                    <span class="text-lime">15% OFF</span> BRICK PAVERS
+                <span class="inline-flex items-center gap-2 text-xs font-bold tracking-[0.3em] uppercase mb-6">
+                    <span class="w-2 h-2 rounded-full bg-lime animate-pulse"></span>
+                    <span class="text-lime">Limited Time Offer</span>
+                </span>
+                <h2 class="font-heading text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight mb-4">
+                    <span class="text-gradient">15% OFF</span>
                 </h2>
-                <p class="text-white/50 text-lg sm:text-xl mb-8 max-w-2xl mx-auto">
-                    Book your spring paver project by April 30th, 2026 and save 15%. Driveways, patios, walkways &mdash; transform your outdoor space for less.
+                <h3 class="font-heading text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight mb-6 text-white/80">
+                    BRICK PAVER PROJECTS
+                </h3>
+                <p class="text-white/50 text-lg sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Book your spring paver project by April 30th, 2026. Driveways, patios, walkways &mdash; transform your outdoor space for less.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#contact" class="btn-glow bg-lime text-dark-950 px-8 py-4 rounded-full text-base font-bold tracking-wide">
+                    <a href="#contact" class="btn-glow btn-magnetic bg-lime text-dark-950 px-10 py-4 rounded-full text-base font-bold tracking-wide inline-flex items-center justify-center gap-2">
                         CLAIM YOUR 15% OFF
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                     </a>
-                    <a href="tel:5868712740" class="btn-glow border border-white/20 text-white px-8 py-4 rounded-full text-base font-medium tracking-wide hover:bg-white/5">
-                        CALL (586) 871-2740
+                    <a href="tel:5868712740" class="btn-glow btn-magnetic border border-white/20 text-white px-10 py-4 rounded-full text-base font-medium tracking-wide hover:bg-white/5 inline-flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        (586) 871-2740
                     </a>
                 </div>
-                <p class="text-white/30 text-sm mt-6">Offer valid for new paver projects. Cannot be combined with other offers.</p>
+                <p class="text-white/20 text-sm mt-8">Offer valid for new paver projects. Cannot be combined with other offers.</p>
             </div>
         </div>
     </section>
 
     <!-- CONTACT SECTION -->
-    <section id="contact" class="py-20 sm:py-32 bg-dark-900 noise">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" class="py-20 sm:py-32 bg-dark-900 noise relative overflow-hidden">
+        <div class="absolute top-20 right-0 w-72 h-72 bg-lime/5 rounded-full blur-[100px] orb-1 pointer-events-none"></div>
+        <div class="absolute bottom-20 left-0 w-56 h-56 bg-gold/5 rounded-full blur-[80px] orb-2 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
                 <!-- Left side - Info -->
                 <div class="reveal">
-                    <span class="text-lime text-xs font-bold tracking-[0.3em] uppercase block mb-4">Get Started</span>
+                    <span class="inline-flex items-center gap-3 text-xs font-bold tracking-[0.3em] uppercase mb-4">
+                        <span class="w-8 h-px bg-lime"></span>
+                        <span class="text-lime">Get Started</span>
+                    </span>
                     <h2 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-8">
-                        LET'S BUILD<br>SOMETHING<br><span class="text-lime">INCREDIBLE<span class="text-gold">.</span></span>
+                        LET'S BUILD<br>SOMETHING<br><span class="text-gradient">INCREDIBLE.</span>
                     </h2>
                     <p class="text-white/50 text-lg mb-10 leading-relaxed">
                         Ready to transform your outdoor space? Reach out today for a free, no-obligation estimate. We serve homeowners across Macomb, Oakland, and Wayne Counties.
@@ -901,7 +1035,8 @@
                                     <option value="deck-gazebo" style="background: #1a1a1a;">Deck & Gazebo</option>
                                     <option value="fertilization" style="background: #1a1a1a;">Fertilization</option>
                                     <option value="spring-fall-cleanup" style="background: #1a1a1a;">Spring/Fall Cleanup</option>
-                                    <option value="finished-basement" style="background: #1a1a1a;">Finished Basement</option>
+                                    <option value="retaining-walls" style="background: #1a1a1a;">Retaining Walls</option>
+                                    <option value="landscape-design" style="background: #1a1a1a;">Landscape Design</option>
                                     <option value="other" style="background: #1a1a1a;">Other</option>
                                 </select>
                             </div>
@@ -930,7 +1065,8 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="border-t border-dark-700 bg-dark-950 noise">
+    <footer class="bg-dark-950 noise relative">
+        <div class="h-px w-full bg-gradient-to-r from-transparent via-lime/30 to-transparent"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
                 <!-- Logo column -->
@@ -957,7 +1093,8 @@
                         <li><a href="#services" class="hover:text-lime transition-colors">Irrigation</a></li>
                         <li><a href="#services" class="hover:text-lime transition-colors">Snow Removal</a></li>
                         <li><a href="#services" class="hover:text-lime transition-colors">Deck & Gazebo</a></li>
-                        <li><a href="#services" class="hover:text-lime transition-colors">Finished Basements</a></li>
+                        <li><a href="#services" class="hover:text-lime transition-colors">Retaining Walls</a></li>
+                        <li><a href="#services" class="hover:text-lime transition-colors">Landscape Design</a></li>
                     </ul>
                 </div>
                 <!-- Contact column -->
@@ -1019,6 +1156,28 @@
         }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Stagger children reveal
+        const staggerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    staggerObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.stagger-children').forEach(el => staggerObserver.observe(el));
+
+        // Image reveal on scroll
+        const imgRevealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    imgRevealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        document.querySelectorAll('.img-reveal').forEach(el => imgRevealObserver.observe(el));
 
         // ===== Why Us Highlight on Scroll =====
         const whyObserver = new IntersectionObserver((entries) => {
